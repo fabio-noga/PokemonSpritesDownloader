@@ -1,0 +1,26 @@
+{
+    "front":{
+        "gif":{
+            "normal":"gen5ani",
+            "shiny":"gen5ani-shiny"
+        }
+    },
+    "back":{
+        "gif":{
+            "normal":"gen5ani-back",
+            "shiny":"gen5ani-back-shiny"
+        }
+    },
+    "PokeIcons":{
+        "version": "bwicons",
+        "type": "",
+        "format": "png",
+        "nameTransform": "simpleCase"
+    },
+    "Types":{
+        "version": "types",
+        "type": "",
+        "format": "png",
+        "nameTransform": "simpleCase"
+    }
+}

@@ -1,29 +1,36 @@
-const request = require('request-promise')
-const fs = require('fs')
-const {
-  join
-} = require('path')
+const config = require('./config/default.json');
+const request = require('request-promise');
+const fs = require('fs');
+const { join } = require('path');
 const pokemon = require('./pokedex.json')
 const types=require('./types.json');
 //var rimraf = require("rimraf");
 
-const baseURL = 'https://play.pokemonshowdown.com/sprites/'
+const baseURL = 'https://play.pokemonshowdown.com/sprites/';
+const pokemonCount=650;
 
-const versions = [
+const versions = /*require('./config/versions.json') =*/ [
   { version: 'gen5ani-back', type:"normal", folder:"GifBack", format: 'gif', nameTransform: simpleCase },
   { version: 'gen5ani', type:"normal", folder:"GifFront", format: 'gif', nameTransform: simpleCase },
   { version: 'gen5ani-back-shiny', type:"shiny", folder:"GifBack", format: 'gif', nameTransform: simpleCase },
   { version: 'gen5ani-shiny', type:"shiny", folder:"GifFront", format: 'gif', nameTransform: simpleCase },
   { version: 'bwicons', type:"", folder:"PokeIcons", format: 'png', nameTransform: simpleCase },
-  { version: 'types', type:"", folder:"Types", format: 'png', nameTransform: null }
+  { version: 'types', type:"", folder:"Types", format: 'png', nameTransform: simpleCase }
 ]
 
 //DeleteFolder();
-init(5);
+init(config["FolderToDownload"]);
+console.log(process.argv);
+/*const multiple = async () => {
+  const result = await init(config["FolderToDownload"])
+}*/
+//await multiple();
+//console.log("yey");
 
 function init(type){
+  createFolder('sprites/' + versions[type].folder);
   if(type==5){
-    DownloadOther("Types",versions[5]);
+    DownloadOther(versions[5]);
   }else DownloadPokemons(versions[type]);
 }
 
@@ -35,30 +42,44 @@ function init(type){
   } catch (err) {}
 }*/
 
-async function DownloadPokemons(config) {
+async function DownloadPokemons(versionChosen) {
+  let nameTransform = versionChosen.nameTransform;
+  for(const entry of pokemon) {
+    let name = entry.name.english;
+    let number = entry.id;
 
-    for(const entry of pokemon) {
-      let name = entry.name.english;
-      let number = entry.id;
-      if (number < 650) {
-        try {
-          fs.mkdirSync('sprites/' + config.folder);
-          if(config.version=='bwicons')
-            downloadIcons(number,config.folder,config.version);
-          else await download({name, number, config, nameTransform })
-        } catch (err) {
-          console.log("ERROR: " + err);
+    if (number < pokemonCount) {
+      try{
+        if(versionChosen.version=='bwicons')
+          downloadIcons(number,versionChosen.folder,versionChosen.version);
+        else {
+          //console.log(versionChosen)
+          download({name, number, versionChosen });
         }
+      } catch (err) {
+        console.log("ERROR: " + err);
       }
-      // nidoran has a male and female version but the same number...
     }
+    // nidoran has a male and female version but the same number...
+  }
 }
 
-function DownloadOther(type,config){
-  switch(type){
+function download({name,number,versionChosen}) {
+  const { version, type, folder, format } = versionChosen
+  var path = join(
+    __dirname,
+    `sprites/${folder}/${simpleFilename(name,number)}.${type}.${format}`
+  )
+  request(`${baseURL}/${version}/${simpleCase(name)}.${format}`)
+    .on('error', console.log)
+    .pipe(fs.createWriteStream(path))
+}
+
+function DownloadOther(version){
+  switch(version.folder){
     case "Types":
       for(const entry of types){
-        requestTypes(entry,config)
+        requestTypes(entry,version)
       }
       break;
   }
@@ -89,17 +110,6 @@ function downloadIcons(number,folder,version) {
     .pipe(fs.createWriteStream(path))
 }
 
-function download({name,number,config}) {
-  const { version, type, folder, format, nameTransform } = config
-  var path = join(
-    __dirname,
-    `sprites/${folder}/${simpleFilename(name,number)}.${type}.${format}`
-  )
-  request(`${baseURL}/${version}/${nameTransform(name)}.${format}`)
-    .on('error', console.log)
-    .pipe(fs.createWriteStream(path))
-}
-
 function simpleCase(name) {
   // this is the format that our baseUrl happens to use.
   return name
@@ -123,15 +133,7 @@ function simpleFilename(name, number) {
 
   _number = _number.join('')
 
-  const _name = name
-    .toLowerCase()
-    .replace(' ', '-')
-    .replace("'", '-')
-    .replace("’", '_')
-    .replace(".", '')
-    .replace("♂", '_M')
-    .replace("♀", '_F')
-    .replace(":", '')
+  const _name = simpleCase(name);
 
   return `${_number}.${_name}`
 }
@@ -150,3 +152,12 @@ function deleteFolderRecursive(path) {
     fs.rmdirSync(path);
   }
 };
+
+function createFolder(folderPath){
+  try {
+    fs.mkdirSync(folderPath);
+    console.log("Folder '"+folderPath+"' created.");
+  }catch(e){
+    console.log("'"+folderPath+"' folder already created, continuing...")
+  }
+}
