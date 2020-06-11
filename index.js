@@ -8,7 +8,7 @@ const types=require('./types.json');
 const baseURL = 'https://play.pokemonshowdown.com/sprites/';
 const pokemonCount=650;
 
-const versions = /*require('./config/versions.json') =*/ [
+const versions = [
   { version: 'gen5ani-back', type:"normal", folder:"GifBack", format: 'gif', nameTransform: simpleCase },
   { version: 'gen5ani', type:"normal", folder:"GifFront", format: 'gif', nameTransform: simpleCase },
   { version: 'gen5ani-back-shiny', type:"shiny", folder:"GifBack", format: 'gif', nameTransform: simpleCase },
