@@ -1,11 +1,19 @@
 {
     "front":{
+        "png":{
+            "normal":"gen5",
+            "shiny":"gen5-shiny"
+        },
         "gif":{
             "normal":"gen5ani",
             "shiny":"gen5ani-shiny"
         }
     },
     "back":{
+        "png":{
+            "normal":"gen5-back",
+            "shiny":"gen5-back-shiny"
+        },
         "gif":{
             "normal":"gen5ani-back",
             "shiny":"gen5ani-back-shiny"

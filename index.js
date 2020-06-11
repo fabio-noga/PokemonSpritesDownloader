@@ -4,7 +4,6 @@ const fs = require('fs');
 const { join } = require('path');
 const pokemon = require('./pokedex.json')
 const types=require('./types.json');
-//var rimraf = require("rimraf");
 
 const baseURL = 'https://play.pokemonshowdown.com/sprites/';
 const pokemonCount=650;
@@ -18,14 +17,8 @@ const versions = /*require('./config/versions.json') =*/ [
   { version: 'types', type:"", folder:"Types", format: 'png', nameTransform: simpleCase }
 ]
 
-//DeleteFolder();
-init(config["FolderToDownload"]);
+init(process.argv[2]);
 console.log(process.argv);
-/*const multiple = async () => {
-  const result = await init(config["FolderToDownload"])
-}*/
-//await multiple();
-//console.log("yey");
 
 function init(type){
   createFolder('sprites/' + versions[type].folder);
@@ -34,16 +27,7 @@ function init(type){
   }else DownloadPokemons(versions[type]);
 }
 
-/*function DeleteFolder(){
-  try {
-    deleteFolderRecursive("sprites/");
-    console.log("Folder Deleted");
-    fs.mkdirSync('sprites');
-  } catch (err) {}
-}*/
-
 async function DownloadPokemons(versionChosen) {
-  let nameTransform = versionChosen.nameTransform;
   for(const entry of pokemon) {
     let name = entry.name.english;
     let number = entry.id;
@@ -53,14 +37,12 @@ async function DownloadPokemons(versionChosen) {
         if(versionChosen.version=='bwicons')
           downloadIcons(number,versionChosen.folder,versionChosen.version);
         else {
-          //console.log(versionChosen)
           download({name, number, versionChosen });
         }
       } catch (err) {
         console.log("ERROR: " + err);
       }
     }
-    // nidoran has a male and female version but the same number...
   }
 }
 
@@ -111,7 +93,6 @@ function downloadIcons(number,folder,version) {
 }
 
 function simpleCase(name) {
-  // this is the format that our baseUrl happens to use.
   return name
     .toLowerCase()
     .replace(' ', '')
@@ -138,8 +119,24 @@ function simpleFilename(name, number) {
   return `${_number}.${_name}`
 }
 
+function createFolder(folderPath){
+  try {
+    fs.mkdirSync(folderPath);
+    console.log("Folder '"+folderPath+"' created.");
+  }catch(e){
+    console.log("'"+folderPath+"' folder already created, continuing...")
+  }
+}
 
-function deleteFolderRecursive(path) {
+/*function DeleteFolder(){
+  try {
+    deleteFolderRecursive("sprites/");
+    console.log("Folder Deleted");
+    fs.mkdirSync('sprites');
+  } catch (err) {}
+}*/
+
+/*function deleteFolderRecursive(path) {
   if( fs.existsSync(path) ) {
     fs.readdirSync(path).forEach(function(file,index){
       var curPath = path + "/" + file;
@@ -151,13 +148,4 @@ function deleteFolderRecursive(path) {
     });
     fs.rmdirSync(path);
   }
-};
-
-function createFolder(folderPath){
-  try {
-    fs.mkdirSync(folderPath);
-    console.log("Folder '"+folderPath+"' created.");
-  }catch(e){
-    console.log("'"+folderPath+"' folder already created, continuing...")
-  }
-}
+};*/
