@@ -11,6 +11,10 @@ const pokemonCount=650;
 
 init(process.argv);
 
+/**
+ * Initializes the program
+ * @param {*} argv All the command line's arguments
+ */
 function init(argv){
   switch(argv[2]){
     case "icons":case "types":
@@ -29,6 +33,10 @@ function init(argv){
   }
 }
 
+/**
+ * Prepares to download the battle sprites for each pokemon
+ * @param {*} param0 {front|back, png|gif, normal|shiny}
+ */
 async function DownloadPokemons({orientation, animation, color}) {
   for(const entry of pokemon) {
     let name = entry.name.english;
@@ -43,8 +51,11 @@ async function DownloadPokemons({orientation, animation, color}) {
   }
 }
 
+/**
+ * Downloads the battle sprites for each pokemon
+ * @param {*} param0 {name, number, front|back, png|gif, normal|shiny}
+ */
 function download({name, number, orientation, animation, color}) {
-  //console.log(spriteType);
   const version=spriteType["battle"][orientation][animation][color];
   const folder=orientation+"_"+animation;
   var path = join(
@@ -56,6 +67,10 @@ function download({name, number, orientation, animation, color}) {
     .pipe(fs.createWriteStream(path))
 }
 
+/**
+ * Prepares to download any other type of sprite
+ * @param {*} type of sprite
+ */
 function DownloadOther(type){
   switch(type.folder){
     case "types":
@@ -67,6 +82,10 @@ function DownloadOther(type){
   }
 }
 
+/**
+ * Downloads the pokemon's type's labels
+ * @param {*} name of the label
+ */
 function downloadTypes(name){
   const version = spriteType["types"]["version"];
   const format = spriteType["types"]["format"];
@@ -93,6 +112,10 @@ function downloadIcons(number,folder,version) {
     .pipe(fs.createWriteStream(path))
 }
 
+/**
+ * Simplifies the pokemon name
+ * @param {*} name of the pokemon
+ */
 function simpleCase(name) {
   return name
     .toLowerCase()
@@ -109,6 +132,11 @@ function simpleCase(name) {
     .replace(/male$/, 'm')
 }
 
+/**
+ * Returns number.name format
+ * @param {*} name of the pokemon
+ * @param {*} number of the pokemon
+ */
 function simpleFilename(name, number) {
   var _number = Array.from(String(number))
   while (_number.length < 3) _number.unshift(0);
@@ -117,6 +145,10 @@ function simpleFilename(name, number) {
   return `${_number}.${_name}`;
 }
 
+/**
+ * Creates folder from path
+ * @param {*} folderPath 
+ */
 function createFolder(folderPath){
   try {
     fs.mkdirSync(folderPath);
