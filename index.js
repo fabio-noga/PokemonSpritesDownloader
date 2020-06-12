@@ -1,4 +1,5 @@
 const config = require('./config/default.json');
+const spriteType = require('./config/spriteType.json');
 const request = require('request-promise');
 const fs = require('fs');
 const { join } = require('path');
@@ -8,37 +9,33 @@ const types=require('./types.json');
 const baseURL = 'https://play.pokemonshowdown.com/sprites/';
 const pokemonCount=650;
 
-const versions = [
-  { version: 'gen5ani-back', type:"normal", folder:"GifBack", format: 'gif', nameTransform: simpleCase },
-  { version: 'gen5ani', type:"normal", folder:"GifFront", format: 'gif', nameTransform: simpleCase },
-  { version: 'gen5ani-back-shiny', type:"shiny", folder:"GifBack", format: 'gif', nameTransform: simpleCase },
-  { version: 'gen5ani-shiny', type:"shiny", folder:"GifFront", format: 'gif', nameTransform: simpleCase },
-  { version: 'bwicons', type:"", folder:"PokeIcons", format: 'png', nameTransform: simpleCase },
-  { version: 'types', type:"", folder:"Types", format: 'png', nameTransform: simpleCase }
-]
+init(process.argv);
 
-init(process.argv[2]);
-console.log(process.argv);
-
-function init(type){
-  createFolder('sprites/' + versions[type].folder);
-  if(type==5){
-    DownloadOther(versions[5]);
-  }else DownloadPokemons(versions[type]);
+function init(argv){
+  switch(argv[2]){
+    case "icons":case "types":
+      createFolder('sprites/'+argv[2]);
+      DownloadOther(argv[2]);
+      break;
+    case "front": case "back":
+      if((argv[3]=="png" || argv[3]=="gif") &&
+          argv[4]=="normal" || argv[4]=="shiny"){
+        createFolder('sprites/'+argv[2]+"_"+argv[3]);
+        DownloadPokemons({"orientation":argv[2], "animation":argv[3], "color":argv[4]});
+      }
+      break;
+    default:
+      console.log("Wrong syntax, please try again.");
+  }
 }
 
-async function DownloadPokemons(versionChosen) {
+async function DownloadPokemons({orientation, animation, color}) {
   for(const entry of pokemon) {
     let name = entry.name.english;
     let number = entry.id;
-
-    if (number < pokemonCount) {
+    if(number<pokemonCount){
       try{
-        if(versionChosen.version=='bwicons')
-          downloadIcons(number,versionChosen.folder,versionChosen.version);
-        else {
-          download({name, number, versionChosen });
-        }
+        download({name, number, orientation, animation, color});
       } catch (err) {
         console.log("ERROR: " + err);
       }
@@ -46,32 +43,36 @@ async function DownloadPokemons(versionChosen) {
   }
 }
 
-function download({name,number,versionChosen}) {
-  const { version, type, folder, format } = versionChosen
+function download({name, number, orientation, animation, color}) {
+  //console.log(spriteType);
+  const version=spriteType["battle"][orientation][animation][color];
+  const folder=orientation+"_"+animation;
   var path = join(
     __dirname,
-    `sprites/${folder}/${simpleFilename(name,number)}.${type}.${format}`
+    `sprites/${folder}/${simpleFilename(name,number)}.${color}.${animation}`
   )
-  request(`${baseURL}/${version}/${simpleCase(name)}.${format}`)
+  request(`${baseURL}/${version}/${simpleCase(name)}.${animation}`)
     .on('error', console.log)
     .pipe(fs.createWriteStream(path))
 }
 
-function DownloadOther(version){
-  switch(version.folder){
-    case "Types":
+function DownloadOther(type){
+  switch(type.folder){
+    case "types":
       for(const entry of types){
-        requestTypes(entry,version)
+        downloadTypes(entry)
       }
       break;
+    case "icons":
   }
 }
 
-function requestTypes(name,config){
-  const { version, folder, format} = config
+function downloadTypes(name){
+  const version = spriteType["types"]["version"];
+  const format = spriteType["types"]["format"];
   var path = join(
     __dirname,
-    `sprites/${folder}/${name}.${format}`
+    `sprites/types/${name}.${format}`
   )
   request(`${baseURL}/${version}/${name}.${format}`)
     .on('error', console.log)
@@ -110,13 +111,10 @@ function simpleCase(name) {
 
 function simpleFilename(name, number) {
   var _number = Array.from(String(number))
-  while (_number.length < 3) _number.unshift(0)
-
-  _number = _number.join('')
-
+  while (_number.length < 3) _number.unshift(0);
+  _number = _number.join('');
   const _name = simpleCase(name);
-
-  return `${_number}.${_name}`
+  return `${_number}.${_name}`;
 }
 
 function createFolder(folderPath){
@@ -124,7 +122,7 @@ function createFolder(folderPath){
     fs.mkdirSync(folderPath);
     console.log("Folder '"+folderPath+"' created.");
   }catch(e){
-    console.log("'"+folderPath+"' folder already created, continuing...")
+    console.log("'"+folderPath+"' folder already created, continuing...");
   }
 }
 

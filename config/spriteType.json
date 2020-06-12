@@ -1,34 +1,32 @@
 {
-    "front":{
-        "png":{
-            "normal":"gen5",
-            "shiny":"gen5-shiny"
+    "battle":{
+        "front":{
+            "png":{
+                "normal":"gen5",
+                "shiny":"gen5-shiny"
+            },
+            "gif":{
+                "normal":"gen5ani",
+                "shiny":"gen5ani-shiny"
+            }
         },
-        "gif":{
-            "normal":"gen5ani",
-            "shiny":"gen5ani-shiny"
+        "back":{
+            "png":{
+                "normal":"gen5-back",
+                "shiny":"gen5-back-shiny"
+            },
+            "gif":{
+                "normal":"gen5ani-back",
+                "shiny":"gen5ani-back-shiny"
+            }
         }
     },
-    "back":{
-        "png":{
-            "normal":"gen5-back",
-            "shiny":"gen5-back-shiny"
-        },
-        "gif":{
-            "normal":"gen5ani-back",
-            "shiny":"gen5ani-back-shiny"
-        }
-    },
-    "PokeIcons":{
+    "icons":{
         "version": "bwicons",
-        "type": "",
-        "format": "png",
-        "nameTransform": "simpleCase"
+        "format": "png"
     },
-    "Types":{
+    "types":{
         "version": "types",
-        "type": "",
-        "format": "png",
-        "nameTransform": "simpleCase"
+        "format": "png"
     }
 }

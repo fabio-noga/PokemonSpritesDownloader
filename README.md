@@ -6,5 +6,13 @@ Downloads all gif/png sprites (+shiny) + Icons + Type rectangles from a well kno
 
 ```
 $ npm install
-$ node index.js [0-5]
+$ node index.js [front|back] [png|gif] [normal|shiny]
+```
+
+### Future Features
+
+```
+$ node index.js types
+
+$ node index.js icons
 ```
