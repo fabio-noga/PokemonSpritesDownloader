@@ -6,13 +6,15 @@ Downloads all gif/png sprites (+shiny) + Icons + Type rectangles from a well kno
 
 ```
 $ npm install
-$ node index.js [front|back] [png|gif] [normal|shiny]
+$ node index.js [front|back] [png|gif] [normal|shiny]  'Downloads battle sprites
+
+$ node index.js types 'Downloads Types labels
+
+$ node index.js icons 'Downloads Pokemon 32bit sprites
 ```
 
-### Future Features
+### TODO
 
 ```
-$ node index.js types
-
-$ node index.js icons
+Asynchronous full requests without timeout issues
 ```
