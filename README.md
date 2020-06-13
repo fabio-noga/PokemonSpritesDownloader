@@ -1,4 +1,4 @@
-# Pokemon's Sprites Downloader
+# Pokemon Sprite Downloader
 
 Downloads all gif/png sprites (+shiny) + Icons + Type rectangles from a well known website
 
