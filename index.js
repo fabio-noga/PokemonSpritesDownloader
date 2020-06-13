@@ -7,7 +7,7 @@ const pokemon = require('./config/pokedex.json')
 const types=require('./config/types.json');
 
 const baseURL = 'https://play.pokemonshowdown.com/sprites/';
-const pokemonCount=650; //can go to 807
+const pokemonCount=config.pokemonCount; //can go to 807
 
 init(process.argv);
 
@@ -18,7 +18,7 @@ init(process.argv);
 function init(argv){
   switch(argv[2]){
     case "icons":case "types":
-      createFolder('sprites/'+argv[2]);
+      createFolder('sprites/'+spriteType[argv[2]].folder);
       DownloadOther(argv[2]);
       break;
     case "front": case "back":
@@ -47,7 +47,7 @@ async function DownloadPokemons({orientation, animation, color}) {
       } catch (err) {
         console.log("ERROR: " + err);
       }
-    }
+    }else break;
   }
 }
 
@@ -72,7 +72,6 @@ function download({name, number, orientation, animation, color}) {
  * @param {*} type of sprite
  */
 function DownloadOther(type){
-  console.log(type);
   switch(type){
     case "types":
       for(const entry of types){
@@ -80,6 +79,12 @@ function DownloadOther(type){
       }
       break;
     case "icons":
+      for(const entry of pokemon) {
+        let number = entry.id;
+        if(number<pokemonCount){
+          downloadIcons(number)
+        }else break;
+      }
   }
 }
 
@@ -99,16 +104,18 @@ function downloadTypes(name){
     .pipe(fs.createWriteStream(path))
 }
 
-function downloadIcons(number,folder,version) {
-  let i=0;
-  for (i;i!=number;i++);
-
+/**
+ * Download pokemon icon by number
+ * @param {*} number of the pokemon
+ */
+function downloadIcons(number) {
+  const version=spriteType.icons.version;
+  const folder=spriteType.icons.folder;
   var path = join(
     __dirname,
-    `sprites/${folder}/${i}.png`
+    `sprites/${folder}/${number}.png`
   )
-
-  request(`${baseURL}/${version}/${i}.png`)
+  request(`${baseURL}/${version}/${number}.png`)
     .on('error', console.log)
     .pipe(fs.createWriteStream(path))
 }
@@ -120,15 +127,12 @@ function downloadIcons(number,folder,version) {
 function simpleCase(name) {
   return name
     .toLowerCase()
-    .replace(' ', '')
-    .replace("’", '')
-    .replace("-", '')
-    .replace("'", '')
-    .replace(".", '')
+    .replace(/[',’\-:]/, '')
+    .replace(' ','')
+    .replace('.','')
     .replace("é", 'e')
     .replace("♂", 'm')
     .replace("♀", 'f')
-    .replace(":", '')
     .replace(/female$/, 'f')
     .replace(/male$/, 'm')
 }

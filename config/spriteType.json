@@ -22,10 +22,12 @@
         }
     },
     "icons":{
+        "folder":"icons",
         "version": "bwicons",
         "format": "png"
     },
     "types":{
+        "folder":"types",
         "version": "types",
         "format": "png"
     }
