@@ -1,13 +1,13 @@
-const config = require('./config/default.json');
-const spriteType = require('./config/spriteType.json');
 const request = require('request-promise');
 const fs = require('fs');
 const { join } = require('path');
-const pokemon = require('./pokedex.json')
-const types=require('./types.json');
+const config = require('./config/default.json');
+const spriteType = require('./config/spriteType.json');
+const pokemon = require('./config/pokedex.json')
+const types=require('./config/types.json');
 
 const baseURL = 'https://play.pokemonshowdown.com/sprites/';
-const pokemonCount=650;
+const pokemonCount=650; //can go to 807
 
 init(process.argv);
 
@@ -72,7 +72,8 @@ function download({name, number, orientation, animation, color}) {
  * @param {*} type of sprite
  */
 function DownloadOther(type){
-  switch(type.folder){
+  console.log(type);
+  switch(type){
     case "types":
       for(const entry of types){
         downloadTypes(entry)
