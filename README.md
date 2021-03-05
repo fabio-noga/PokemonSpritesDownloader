@@ -8,7 +8,13 @@ Downloads all gif/png sprites (+shiny) + Icons + Type labels from a well known w
 $ npm install
 $ node index.js [arguments]
 
-Downloads battle sprites:
+Downloads all battle sprites:
+$ node index.js all  
+
+Downloads battle sprites by type of art:
+$ node index.js [png|gif]  
+
+Downloads battle sprites individually :
 $ node index.js [front|back] [png|gif] [normal|shiny]  
 
 Downloads Types labels:
@@ -21,5 +27,6 @@ $ node index.js icons
 ### TODO
 
 ```
-Asynchronous full requests without timeout issues
+~~Asynchronous full requests without timeout issues~~
+Transform into a module type
 ```

@@ -1,34 +1,32 @@
-{
-    "battle":{
-        "front":{
-            "png":{
-                "normal":"gen5",
-                "shiny":"gen5-shiny"
-            },
-            "gif":{
-                "normal":"gen5ani",
-                "shiny":"gen5ani-shiny"
-            }
+{"battle":{
+    "front":{
+        "png":{
+            "normal":"gen5",
+            "shiny":"gen5-shiny"
         },
-        "back":{
-            "png":{
-                "normal":"gen5-back",
-                "shiny":"gen5-back-shiny"
-            },
-            "gif":{
-                "normal":"gen5ani-back",
-                "shiny":"gen5ani-back-shiny"
-            }
+        "gif":{
+            "normal":"gen5ani",
+            "shiny":"gen5ani-shiny"
         }
     },
-    "icons":{
-        "folder":"icons",
-        "version": "bwicons",
-        "format": "png"
-    },
-    "types":{
-        "folder":"types",
-        "version": "types",
-        "format": "png"
+    "back":{
+        "png":{
+            "normal":"gen5-back",
+            "shiny":"gen5-back-shiny"
+        },
+        "gif":{
+            "normal":"gen5ani-back",
+            "shiny":"gen5ani-back-shiny"
+        }
     }
-}
+},
+"icons":{
+    "folder":"icons",
+    "version": "bwicons",
+    "format": "png"
+},
+"types":{
+    "folder":"types",
+    "version": "types",
+    "format": "png"
+}}

@@ -4,12 +4,13 @@
   "description": "Downloads all needed Sprites until gen 5",
   "main": "index.js",
   "dependencies": {
+    "got": "^11.8.2",
     "request": "^2.88.2",
     "request-promise": "^4.2.5"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node ./index.js [0-5]"
+    "test": "node index.js all"
   },
   "repository": {
     "type": "git",

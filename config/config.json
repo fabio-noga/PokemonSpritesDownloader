@@ -1,0 +1,5 @@
+{
+    "BASE_URL": "https://play.pokemonshowdown.com/sprites/",
+    "POKEMON_COUNT":649,
+    "DECIMAL_CASES":3
+}
