@@ -8,6 +8,7 @@ const stringUtil = require('./stringUtil');
 
 const pokemonCount=config.POKEMON_COUNT; //Max 649
 const baseURL = config.BASE_URL;
+const substituteURL = config.SUBSTITUTE_URL;
 
 const sprites = ({orientation, animation, color}, _callback) => {
     //console.log({orientation, animation, color});
@@ -24,11 +25,10 @@ const sprites = ({orientation, animation, color}, _callback) => {
             __dirname,
             `../sprites/${folder}/${stringUtil.simpleFileName(name,number)}.${color}.${animation}`
             )
-            try{
             prom=request(`${baseURL}/${version}/${stringUtil.simpleCase(name)}.${animation}`);
+            prom.on('error',console.log("Erro: "+stringUtil.simpleFileName(name,number)+" - "+err));
             prom.pipe(fs.createWriteStream(path));
             promises.push(prom);
-            }catch(err){console.log("Erro: "+stringUtil.simpleFileName(name,number)+" - "+err)};
             
         } catch (err) {
             console.log("ERROR: " + err);
@@ -72,8 +72,30 @@ const icons = (number) => {
     .pipe(fs.createWriteStream(path))
 }
 
+const other = (thing) => {
+    switch(thing){
+        case "substitute":
+            var path = join(
+                __dirname,`../sprites/substitute.png`);
+            request(`${substituteURL}/substitute.png`)
+            .on('error', console.log)
+            .pipe(fs.createWriteStream(path))
+            break;
+    }
+    /*const version=spriteType.icons.version;
+    const folder=spriteType.icons.folder;
+    var path = join(
+    __dirname,
+    `../sprites/${folder}/${_number}.png`
+    )
+    request(`${baseURL}/${version}/${number}.png`)
+    .on('error', console.log)
+    .pipe(fs.createWriteStream(path))*/
+}
+
 module.exports={
     sprites,
     types,
-    icons
+    icons,
+    other
 }

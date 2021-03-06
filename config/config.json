@@ -1,5 +1,6 @@
 {
     "BASE_URL": "https://play.pokemonshowdown.com/sprites/",
+    "SUBSTITUTE_URL": "https://play.pokemonshowdown.com/sprites/substitutes/gen5/",
     "POKEMON_COUNT":649,
     "DECIMAL_CASES":3
 }

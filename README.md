@@ -9,7 +9,7 @@ $ npm install
 $ node index.js [arguments]
 
 Downloads all battle sprites:
-$ node index.js all  
+$ node index.js sprites  
 
 Downloads battle sprites by type of art:
 $ node index.js [png|gif]  
@@ -22,6 +22,10 @@ $ node index.js types
 
 Downloads Pokemon 32bit sprites:
 $ node index.js icons
+
+Downloads others:
+Substitute:
+$ node index.js other substitute
 ```
 
 ### TODO

@@ -104,6 +104,15 @@ async function init(argv){
         pokemonDowloader.sprites({"orientation":argv[2], "animation":argv[3], "color":argv[4]});
       }
       break;
+    case "other":
+      switch(argv[3]){
+        case "substitute":
+          pokemonDowloader.other(argv[3]);
+          break;
+        default:
+          console.log("Wrong syntax, please try again.");
+      }
+      break;
     default:
       console.log("Wrong syntax, please try again.");
   }
