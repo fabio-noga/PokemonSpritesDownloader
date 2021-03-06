@@ -1,20 +1,10 @@
 {
-  "name": "pokemon-sprite-downloader",
+  "name": "test",
   "version": "1.0.0",
   "description": "Downloads all needed Sprites until gen 5",
   "main": "index.js",
-  "dependencies": {
-    "got": "^11.8.2",
-    "request": "^2.88.2",
-    "request-promise": "^4.2.5"
-  },
-  "devDependencies": {},
   "scripts": {
     "test": "node index.js all"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/fabio-noga/PokemonSpritesDownloader.git"
   },
   "keywords": [
     "pokemon",
@@ -22,10 +12,10 @@
     "download",
     "downloader"
   ],
-  "author": "fiano-noga",
+  "author": "fabio-noga",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/fabio-noga/PokemonSpritesDownloader/issues"
-  },
-  "homepage": "https://github.com/fabio-noga/PokemonSpritesDownloader#readme"
+  "dependencies": {
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
+  }
 }

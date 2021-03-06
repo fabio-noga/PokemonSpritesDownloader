@@ -26,7 +26,8 @@ $ node index.js icons
 
 ### TODO
 
-```
-~~Asynchronous full requests without timeout issues~~
-Transform into a module type
-```
+- ~~Asynchronous full requests without timeout issues~~
+- ~~Transform into a module type~~
+- Clean config files to a monolithic one
+- Add option to download trainers, items and substitute
+
