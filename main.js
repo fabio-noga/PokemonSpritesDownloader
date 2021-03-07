@@ -20,12 +20,10 @@ let collection= [
 
  
 
-/**
- * Initializes the program
- * @param {*} argv All the command line's arguments
- */
+
 init(process.argv);
-async function init(argv){
+
+function init(argv){
   createFolder('sprites');
   switch(argv[2]){
     case'png':
@@ -95,7 +93,10 @@ async function init(argv){
             }else break;
           }
       }
-
+      break;
+    case "trainers":
+      createFolder('sprites/trainers');
+      pokemonDowloader.trainers();
       break;
     case "front": case "back":
       if((argv[3]=="png" || argv[3]=="gif") &&

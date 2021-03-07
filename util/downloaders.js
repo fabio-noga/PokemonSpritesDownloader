@@ -5,6 +5,7 @@ const { join } = require('path');
 const spriteType = require('../config/spriteType.json');
 const pokemonNumber = require('../config/pokedex.json');
 const stringUtil = require('./stringUtil');
+const trainersArr = require('../config/trainers');
 
 const pokemonCount=config.POKEMON_COUNT; //Max 649
 const baseURL = config.BASE_URL;
@@ -82,20 +83,22 @@ const other = (thing) => {
             .pipe(fs.createWriteStream(path))
             break;
     }
-    /*const version=spriteType.icons.version;
-    const folder=spriteType.icons.folder;
-    var path = join(
-    __dirname,
-    `../sprites/${folder}/${_number}.png`
-    )
-    request(`${baseURL}/${version}/${number}.png`)
-    .on('error', console.log)
-    .pipe(fs.createWriteStream(path))*/
+}
+
+const trainers = () => {
+    for(const entry of trainersArr) {
+        var path = join(
+            __dirname,`../sprites/trainers/${entry}.png`);
+        request(`${baseURL}/trainers/${entry}.png`)
+        .on('error', console.log)
+        .pipe(fs.createWriteStream(path))
+    }
 }
 
 module.exports={
     sprites,
     types,
     icons,
+    trainers,
     other
 }
