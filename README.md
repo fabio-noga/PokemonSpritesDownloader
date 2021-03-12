@@ -21,9 +21,10 @@ $ node main.js [front|back] [png|gif] [normal|shiny]
 
 Downloads Pokemon 32bit sprites:
 $ node main.js icons
-
-Downloads others:
-Downloads Types labels:
+```
+#### Downloads others:
+```
+Types labels:
 $ node main.js types
 
 Trainers:
@@ -37,6 +38,5 @@ $ node main.js other substitute
 
 - ~~Asynchronous full requests without timeout issues~~
 - ~~Transform into a module type~~
-- Clean config files to a monolithic one
 - ~~Add option to download trainers and substitute~~
 
