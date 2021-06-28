@@ -1,6 +1,6 @@
 # Pokemon Sprite Downloader
 
-Downloads all gif/png sprites (+shiny) + a lot of pokemon content from gen 5 labels from a pokemon showdown open source.
+NodeJS script that downloads all gif/png sprites (+shiny) + a lot of pokemon content from gen 5 labels from a pokemon showdown open source.
 
 ## Usage
 You can initialize the program with (1) and use like (2)
